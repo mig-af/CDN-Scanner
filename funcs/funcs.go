@@ -86,7 +86,7 @@ func CheckNs(url string)[]string{
 			PreferGo: true,
 			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
 				d := net.Dialer{}
-				return d.DialContext(ctx, "upd", "8.8.8.8:53")
+				return d.DialContext(ctx, "udp", "8.8.8.8:53")
 			},
 		}
 		resp, err = n.LookupNS(context.Background(), url)
@@ -103,6 +103,7 @@ func CheckNs(url string)[]string{
 	for _, v := range resp{
 		list = append(list, v.Host)
 	}
+	//fmt.Println(list)
 	return list
 }
 
