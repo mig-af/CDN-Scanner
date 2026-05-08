@@ -155,17 +155,17 @@ func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 	if(savefile){
 		var data string
 		for _, v := range subdomains{
-			data += fmt.Sprintf("%s, %s, cdn:> %s\n", v.Name, v.Ip, v.Cdns)
+			data += fmt.Sprintf("%s, %s,  %s\n", v.Name, v.Ip, v.Cdns)
 		}
 		funcs.Save("subdomains-"+dominio+".txt", &data)
 	}
 	
 	//-------RESULTADOS
-	fmt.Printf("\r%s","------------------------Results--------------------------\n")
+	fmt.Printf("\r%s","---------------------------Results-------------------------------\n")
 	for n, v := range subdomains{
 		time.Sleep(100 * time.Millisecond)
 		fmt.Println(n+1,style.YELLOW, v.Name, style.END ,style.GREEN, v.Ip, style.END) 
-		fmt.Println(style.Randcolor() + "   Cdn: >" + style.END, v.Cdns)
+		fmt.Println(style.Randcolor() + "   Cdn: >" + style.END, style.GREEN, v.Cdns, style.END)
 		fmt.Println("-----------------------------------------------------------------")
 	}
 	end := time.Since(start)
@@ -197,7 +197,7 @@ func Start(lista []string, cdnlist *[]IPs.Cdn)[]domain.Domain{
 					
 					ip, err := funcs.CheckIp(x, true)
 					if(err != nil){
-						fmt.Printf("\r%s", style.RED + err.Error() + style.END)
+						fmt.Printf("\r%s", style.RED + err.Error() + style.END+"	")
 						dmain <- nil
 						continue
 					}
