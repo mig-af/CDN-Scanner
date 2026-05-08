@@ -262,7 +262,7 @@ func ScanSubdomain(s dnsmikis.Scan)(domain.SubDomains, error){
 
 func Help()string{
 	return `
-
+Help:
 Use: app [options] <arguments>
 Options:
 	--ip <IP>           "Scann all CDN for this ip"
@@ -270,9 +270,9 @@ Options:
 	--help		    "Help"
 	[--save] [-s]      "Save results in a file (./subdomains-your-domain.txt)" 
 Example:
-	app --ip  123.123.123.123
-	app --domain  mydomain.com
-	app -ip 123.43.45.34 --save 
+	./cdnscanner --ip  123.123.123.123
+	./cdnscanner --domain  mydomain.com
+	./cdnscanner --domain mydomain.com --save 
 `
 }
 
