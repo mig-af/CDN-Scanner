@@ -1,16 +1,34 @@
 package requests
-import(
+
+import (
+	"context"
 	"fmt"
-	"net/http"
-	"time"
 	"math/rand"
+	"net"
+	"net/http"
+	"runtime"
+	"time"
 )
 
 func Get(url string)(*http.Response, error){
 	UserAgent := GetRandomUa()
-	cli := &http.Client{
-		Timeout: 50 * time.Second,
+	var client *http.Client
+
+	//----Modificando resolver y dialer en caso que sea android
+	if(runtime.GOOS == "android"){
+		dialer := LoadResolverAndDialer()
+		client = &http.Client{
+			Timeout: 50 * time.Second,
+			Transport: &http.Transport{
+				DialContext: dialer.DialContext,
+			},
+		}
+	}else{
+		client = &http.Client{
+			Timeout: 50 * time.Second,
+		}
 	}
+
 
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -23,7 +41,7 @@ func Get(url string)(*http.Response, error){
 	req.Header.Set("Accept", "applicattion/json")
 	
 
-	resp, err := cli.Do(req)
+	resp, err := client.Do(req)
 	if(err != nil){
 
 		return nil, fmt.Errorf("Error get: %s", err.Error())
@@ -55,5 +73,23 @@ var UserAgents [2]string = [2]string{
 func GetRandomUa()string{
 	ua := rand.Intn(len(UserAgents)-1)
 	return UserAgents[ua]
+}
+
+
+func LoadResolverAndDialer()*net.Dialer{
+	resolver := net.Resolver{
+		PreferGo: true,
+		Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+			d := net.Dialer{}
+			return d.DialContext(ctx, "udp", "8.8.8.8:53")
+		},
+	}
+
+	dialer := net.Dialer{
+		Resolver: &resolver,
+	}
+
+	return &dialer
+
 }
 
