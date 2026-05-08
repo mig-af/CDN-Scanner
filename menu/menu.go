@@ -1,22 +1,21 @@
 package menu
 
 import (
-	"gatoscanner/IPs"
-	"gatoscanner/funcs"
 	"fmt"
-	"sync"
-	"time"
-	"gatoscanner/domain"
-	"gatoscanner/style"
+	"gatoscanner/IPs"
+	"gatoscanner/dnsmikis"
 	"gatoscanner/dnsmikis/cert"
 	"gatoscanner/dnsmikis/hacktarget"
 	"gatoscanner/dnsmikis/rapiddns"
 	"gatoscanner/dnsmikis/urlscan"
-	"gatoscanner/dnsmikis"
+	"gatoscanner/domain"
+	"gatoscanner/funcs"
+	"gatoscanner/style"
 	"net"
+	
+	"sync"
+	"time"
 )
-
-
 
 //---------Buscar cdn de una sola ip
 func CheckCdnOnly(ips *[]IPs.Cdn,ip string){
@@ -48,6 +47,8 @@ func CheckCdnOnly(ips *[]IPs.Cdn,ip string){
 
 
 func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
+
+	
 	
 	if(len(funcs.CheckNs(dominio)) == 0){
 		fmt.Printf(style.RED + "Domain: %s not found\n"+style.END , dominio  )
