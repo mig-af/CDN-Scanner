@@ -65,7 +65,7 @@ Options:
 ```bash
 ./cdnscanner --ip 123.123.123.123
 ./cdnscanner --domain mydomain.com
-./cdnscanner --ip 123.43.45.34 --save
+./cdnscanner --domain mydomain.net --save
 ```
 
 ---
