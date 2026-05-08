@@ -48,9 +48,24 @@ func elementInList(list []string, element string)bool{
 
 
 func CheckIp(url string, onlyIpv4 bool)([]net.IP, error){
-	
+	var (
+		resp []net.IP
+		err error
+	)
 
-	resp, err := net.LookupIP(url)
+	if(runtime.GOOS == "android"){
+		n := &net.Resolver{
+			PreferGo: true,
+			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+				d := net.Dialer{}
+				return d.DialContext(ctx, "udp", "8.8.8.8:53")
+			},
+		}
+		resp, err = n.LookupIP(context.Background(), "ip", url)
+	}else{
+		resp, err = net.LookupIP(url)
+
+	}
 	if(err != nil){
 		time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
 		// fmt.Printf("\r %s", err.Error())
