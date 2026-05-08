@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-
+	"runtime"
+	"context"
 	"net"
 
 	"time"
@@ -75,7 +76,25 @@ func CheckIp(url string, onlyIpv4 bool)([]net.IP, error){
 
 
 func CheckNs(url string)[]string{
-	resp, err := net.LookupNS(url)
+	var (
+		resp []*net.NS
+		err error
+	) 
+
+	if(runtime.GOOS == "android"){
+		n := &net.Resolver{
+			PreferGo: true,
+			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+				d := net.Dialer{}
+				return d.DialContext(ctx, "upd", "8.8.8.8:53")
+			},
+		}
+		resp, err = n.LookupNS(context.Background(), url)
+	}else{
+		resp, err = net.LookupNS(url)
+
+	}
+
 	if(err != nil){
 		//fmt.Println(err.Error())
 		return []string{}
