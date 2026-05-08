@@ -49,15 +49,13 @@ func (d *Domain) scanCdn(cdnName string, cdnRange []string){
 				//d.Cdns = append(d.Cdns, style.SUB, style.GREEN + cdnName + style.END)
 				d.Cdns = append(d.Cdns, cdnName )
 
-				return
+				continue
 			}
 
 			isCdn:= funcs.CheckCdn(cdnName, ip, cdnRange)
 			if(isCdn){
 				//d.Cdns = append(d.Cdns, style.SUB, style.GREEN + cdnName + style.END)
 				d.Cdns = append(d.Cdns,  cdnName )
-
-				return
 			}
 			// }else{
 			// 	d.Cdns = append(d.Cdns, style.RED + cdnName + style.END)
