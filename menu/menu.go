@@ -198,7 +198,7 @@ func Start(lista []string, cdnlist *[]IPs.Cdn)[]domain.Domain{
 					
 					ip, err := funcs.CheckIp(x, true)
 					if(err != nil){
-						fmt.Printf("\r%s", style.RED + err.Error() + style.END+"	")
+						fmt.Printf("\r%s", style.RED + err.Error()[:30] + style.END)
 						dmain <- nil
 						continue
 					}
