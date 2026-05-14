@@ -1,26 +1,29 @@
 package requests
 
 import (
-	"context"
 	"fmt"
+	"gatoscanner/config"
 	"math/rand"
-	"net"
+
 	"net/http"
-	"runtime"
+	"net"
 	"time"
 )
+
+var Dialer *net.Dialer = config.ConfigDialerAndResolver()
+
 
 func Get(url string)(*http.Response, error){
 	UserAgent := GetRandomUa()
 	var client *http.Client
 
 	//----Modificando resolver y dialer en caso que sea android
-	if(runtime.GOOS == "android"){
-		dialer := LoadResolverAndDialer()
+	if(*config.Android ){
+	
 		client = &http.Client{
 			Timeout: 50 * time.Second,
 			Transport: &http.Transport{
-				DialContext: dialer.DialContext,
+				DialContext: Dialer.DialContext,
 			},
 		}
 	}else{
@@ -73,23 +76,5 @@ var UserAgents [2]string = [2]string{
 func GetRandomUa()string{
 	ua := rand.Intn(len(UserAgents)-1)
 	return UserAgents[ua]
-}
-
-
-func LoadResolverAndDialer()*net.Dialer{
-	resolver := net.Resolver{
-		PreferGo: true,
-		Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
-			d := net.Dialer{}
-			return d.DialContext(ctx, "udp", "8.8.8.8:53")
-		},
-	}
-
-	dialer := net.Dialer{
-		Resolver: &resolver,
-	}
-
-	return &dialer
-
 }
 

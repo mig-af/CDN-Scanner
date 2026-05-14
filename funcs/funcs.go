@@ -1,14 +1,13 @@
 package funcs
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"gatoscanner/config"
 	"math/rand"
-	"os"
-	"runtime"
-	"context"
 	"net"
-
+	"os"
 	"time"
 )
 
@@ -47,21 +46,15 @@ func elementInList(list []string, element string)bool{
 //------------------
 
 
-func CheckIp(url string, onlyIpv4 bool)([]net.IP, error){
+func CheckIp(url string, onlyIpv4 bool, resolver *net.Resolver)([]net.IP, error){
 	var (
 		resp []net.IP
 		err error
 	)
 
-	if(runtime.GOOS == "android"){
-		n := &net.Resolver{
-			PreferGo: true,
-			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
-				d := net.Dialer{}
-				return d.DialContext(ctx, "udp", "8.8.8.8:53")
-			},
-		}
-		resp, err = n.LookupIP(context.Background(), "ip", url)
+	if(*config.Android){
+		resp, err = resolver.LookupIP(context.Background(), "ip", url)
+
 	}else{
 		resp, err = net.LookupIP(url)
 
@@ -90,21 +83,15 @@ func CheckIp(url string, onlyIpv4 bool)([]net.IP, error){
 
 
 
-func CheckNs(url string)[]string{
+func CheckNs(url string, resolver *net.Resolver)[]string{
 	var (
 		resp []*net.NS
 		err error
 	) 
 
-	if(runtime.GOOS == "android"){
-		n := &net.Resolver{
-			PreferGo: true,
-			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
-				d := net.Dialer{}
-				return d.DialContext(ctx, "udp", "8.8.8.8:53")
-			},
-		}
-		resp, err = n.LookupNS(context.Background(), url)
+	if(*config.Android){
+		
+		resp, err = resolver.LookupNS(context.Background(), url)
 	}else{
 		resp, err = net.LookupNS(url)
 
