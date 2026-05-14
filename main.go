@@ -24,8 +24,8 @@ func main(){
 	SaveinfFile := false
 	option := os.Args
 	if(len(option) < 2){
-		fmt.Println()
-		fmt.Println("Invalid option, please type --help")
+		
+		fmt.Println("Invalid option, please type ./recondomain --help")
 		fmt.Println()
 
 		return
@@ -68,7 +68,7 @@ func main(){
 		
 
 	default:
-		fmt.Println("\nInvalid option, please type --help")
+		fmt.Println("Invalid option, please type ./recondomain --help")
 		fmt.Println()
 	}
 
