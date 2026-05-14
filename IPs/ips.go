@@ -149,10 +149,10 @@ type IpRanges struct{
 
 
 // func (i *IpRanges) getIpsFromFile(fileName string)[]string{
-// 	//data, err := os.ReadFile(i.IPsPath + "/"+fileName)
-// 	data , err := File.ReadFile(i.IPsPath +"/"+fileName)
+// 	data, err := os.ReadFile(i.IPsPath + "/"+fileName)
+// 	//data , err := File.ReadFile(i.IPsPath +"/"+fileName)
 // 	if(err != nil){
-// 		fmt.Println("Error lectura .txt", err)
+// 		//fmt.Println("Error lectura .txt", err)
 // 		return []string{""}
 // 	}
 // 	return strings.Fields(string(data))

@@ -1,5 +1,5 @@
 
-# TraceCDN
+# ReconDomain
 ```
     /\_____/\
    /  o   o  \
@@ -20,12 +20,6 @@
 - Detects CDN provider for each subdomain (Cloudflare, Akamai, AWS Cloudfront, Google, Fastly, Sucuri, BunnyCDN)
 - No active requests to the target — fully passive
 
-## Sources
-
-- HackerTarget
-- RapidDNS
-- crt.sh
-- urlscan
 
 ---
 
@@ -35,16 +29,16 @@ Precompiled binaries available for Linux and Android (Termux).
 
 **Linux**
 ```bash
-wget https://github.com/mig-af/CDN-Scanner/raw/refs/heads/main/cdnscanner 
-chmod +x cdnscanner
-./cdnscanner
+wget https://github.com/mig-af/ReconDomain/raw/refs/heads/main/recondomain
+chmod +x recondomain
+./cdnscanner --subdomain example.com
 ```
 
 **Android (Termux)**
 ```bash
-wget https://github.com/mig-af/CDN-Scanner/raw/refs/heads/main/cdnscanner-android 
-chmod +x cdnscanner-android
-./cdnscanner-android
+wget https://github.com/mig-af/ReconDomain/raw/refs/heads/main/recondomain-android 
+chmod +x recondomain-android
+./recondomain-android --subdomain example.com
 ```
 
 ---
@@ -55,43 +49,38 @@ chmod +x cdnscanner-android
 cdnscanner [options] <arguments>
 
 Options:
-  --ip <IP>          Scan all CDNs for a given IP
-  --domain <DOMAIN>  Scan all CDNs and subdomains for a domain
+  --cdn <IP>          Scan all CDNs for a given IP
+  --subdomain <DOMAIN>  Scan all CDNs and subdomains for a domain
   --save | -s        Save results to ./subdomains-your-domain.txt
   --help             Show help
 ```
 
 **Examples**
 ```bash
-./cdnscanner --ip 123.123.123.123
-./cdnscanner --domain mydomain.com
-./cdnscanner --domain mydomain.net --save
+./recondomain --cdn 123.123.123.123
+./recondomain --subdomain mydomain.com
+./recondomain --subdomain mydomain.net --save
 ```
 
 ---
 
 ## Supported CDNs
 
-| CDN | Detection method |
-|---|---|
-| Cloudflare | IP range |
-| Akamai | IP range |
-| AWS Cloudfront | IP range |
-| Google | IP range |
-| Fastly | IP range |
-| Sucuri | IP range |
-| BunnyCDN | IP range |
+| CDN|
+|---|
+| Cloudflare |
+ Akamai |
+| AWS Cloudfront |
+ Google | 
+| Fastly | 
+Sucuri | 
+| BunnyCDN |
 
 ---
 
-## Disclaimer
-
-For educational and authorized use only.
-
----
 
 
 ## Author
 
-- [@Migaf](https://www.github.com/mig-af)
+- [@Migf](https://www.github.com/mig-af)
 

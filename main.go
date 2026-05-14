@@ -43,7 +43,7 @@ func main(){
 
 	switch option[1]{
 	
-	case "--ip":
+	case "--cdn":
 		
 		if(len(option) < 3){
 			fmt.Println()
@@ -54,7 +54,7 @@ func main(){
 		menu.CheckCdnOnly(&cdnList, option[2])	
 
 		
-	case "--domain":
+	case "--subdomain":
 		if(len(option) < 3){
 			fmt.Println()
 			fmt.Println("Invalid <argument>, please type --help")

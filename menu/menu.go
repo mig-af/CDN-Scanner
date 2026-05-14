@@ -17,6 +17,14 @@ import (
 	"time"
 )
 
+
+
+
+var Resolver *net.Resolver = config.ConfigResolver() //solo para android
+	
+
+
+
 //---------Buscar cdn de una sola ip
 func CheckCdnOnly(ips *[]IPs.Cdn,ip string){
 	fmt.Println("")
@@ -45,8 +53,6 @@ func CheckCdnOnly(ips *[]IPs.Cdn,ip string){
 
 
 
-var Resolver *net.Resolver = config.ConfigResolver() //solo para android
-	
 func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 	
 	
@@ -101,7 +107,7 @@ func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 	hackTarget := &hacktarget.Htarget{NameService:"hackertarget", Domain: dominio, Url: urlHtarget}
 	ht, errt := ScanSubdomain(hackTarget)
 	if(errt != nil){
-		fmt.Println("\nhtarget> ",errt.Error())
+		fmt.Println("\nhtarget> No work ",errt.Error())
 		ht = domain.SubDomains{}
 	}
 
@@ -110,7 +116,7 @@ func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 	scanIo := &urlscan.UrlScan{NameService: "urlscan.io", Domain: dominio, Url: urlUrlScanio}
 	sci, errs := ScanSubdomain(scanIo)
 	if(errs != nil){
-		fmt.Println("urlscan > ", errs.Error())
+		fmt.Println("urlscan > No work ", errs.Error())
 		sci = domain.SubDomains{}
 	}
 
@@ -119,7 +125,7 @@ func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 	rapid := &rapiddns.RapidDns{NameService: "rapiddns", Domain: dominio, Url: urlRapidDns}
 	rapidns, errp := ScanSubdomain(rapid)
 	if(errp != nil){
-		fmt.Println("RpDns >", errp.Error())
+		fmt.Println("RpDns > No work", errp.Error())
 		rapidns = domain.SubDomains{}
 	}
 	//-----------------------------------------------------------
@@ -198,7 +204,7 @@ func Start(lista []string, cdnlist *[]IPs.Cdn)[]domain.Domain{
 					
 					ip, err := funcs.CheckIp(x, true, Resolver)
 					if(err != nil){
-						fmt.Printf("\r%s", style.RED + err.Error()[:30] + style.END)
+						fmt.Printf("\r%s", style.RED + err.Error()[:31] + style.END)
 						dmain <- nil
 						continue
 					}
@@ -263,16 +269,17 @@ func ScanSubdomain(s dnsmikis.Scan)(domain.SubDomains, error){
 func Help()string{
 	return `
 Help:
-Use: app [options] <arguments>
+Use: ./recondomain [options] <arguments>
 Options:
-	--ip <IP>           "Scann all CDN for this ip"
-	--domain <DOMAIN>   "Scann all CDN and Subdomains for this domain"	
-	--help		    "Help"
-	[--save] [-s]      "Save results in a file (./subdomains-your-domain.txt)" 
+  --cdn <IP>            "Scann all CDN for this ip"
+  --subdomain <DOMAIN>  "Scann all CDN and Subdomains for this domain"	
+  --help	        "Help"
+  [--save] [-s]         "Save results in a file (./subdomains-your-domain.txt)" 
+
 Example:
-	./cdnscanner --ip  123.123.123.123
-	./cdnscanner --domain  mydomain.com
-	./cdnscanner --domain mydomain.com --save 
+  ./recondomain --cdn  123.123.123.123
+  ./recondomain --subdomain  mydomain.com
+  ./recondomain --subdomain mydomain.com --save 
 `
 }
 
