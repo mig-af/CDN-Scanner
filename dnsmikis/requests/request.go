@@ -18,7 +18,7 @@ func Get(url string)(*http.Response, error){
 	var client *http.Client
 
 	//----Modificando resolver y dialer en caso que sea android
-	if(*config.Android ){
+	if(config.Android ){
 	
 		client = &http.Client{
 			Timeout: 50 * time.Second,

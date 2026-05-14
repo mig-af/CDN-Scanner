@@ -16,7 +16,7 @@ import (
 
 func main(){
 	if(runtime.GOOS == "android"){
-		*config.Android = true
+		config.Android = true
 	}
 
 	fmt.Println(style.Banner2)

@@ -52,7 +52,7 @@ func CheckIp(url string, onlyIpv4 bool, resolver *net.Resolver)([]net.IP, error)
 		err error
 	)
 
-	if(*config.Android){
+	if(config.Android){
 		resp, err = resolver.LookupIP(context.Background(), "ip", url)
 
 	}else{
@@ -89,7 +89,7 @@ func CheckNs(url string, resolver *net.Resolver)[]string{
 		err error
 	) 
 
-	if(*config.Android){
+	if(config.Android){
 		
 		resp, err = resolver.LookupNS(context.Background(), url)
 	}else{

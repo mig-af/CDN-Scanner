@@ -5,7 +5,7 @@ import "context"
 
 
 
-var Android *bool 
+var Android bool = false
 
 
 //Configuracion de Resolver y Dialer para android
