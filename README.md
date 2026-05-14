@@ -31,14 +31,14 @@ Precompiled binaries available for Linux and Android (Termux).
 ```bash
 wget https://github.com/mig-af/ReconDomain/raw/refs/heads/main/recondomain
 chmod +x recondomain
-./cdnscanner --subdomain example.com
+./cdnscanner 
 ```
 
 **Android (Termux)**
 ```bash
 wget https://github.com/mig-af/ReconDomain/raw/refs/heads/main/recondomain-android 
 chmod +x recondomain-android
-./recondomain-android --subdomain example.com
+./recondomain-android 
 ```
 
 ---
