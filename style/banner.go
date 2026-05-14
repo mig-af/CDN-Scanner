@@ -8,9 +8,7 @@ import "fmt"
 const AUTOR string = "@COLTJJ"
 
 
-var Banner2 string = fmt.Sprintf(`%s
-                                                                      
-                                                                      
+var Banner2 string = fmt.Sprintf(`%s                                                                      
 █████▄  ▄▄▄▄▄  ▄▄▄▄  ▄▄▄  ▄▄  ▄▄ ████▄   ▄▄▄  ▄▄   ▄▄  ▄▄▄  ▄▄ ▄▄  ▄▄ 
 ██▄▄██▄ ██▄▄  ██▀▀▀ ██▀██ ███▄██ ██  ██ ██▀██ ██▀▄▀██ ██▀██ ██ ███▄██ 
 ██   ██ ██▄▄▄ ▀████ ▀███▀ ██ ▀██ ████▀  ▀███▀ ██   ██ ██▀██ ██ ██ ▀██ 
