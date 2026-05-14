@@ -13,9 +13,9 @@ import (
 
 func TestCheckIp(t *testing.T){
 	url := "money.tigo.com.bo"
-	r, _ := CheckIp(url, true)
+	r, _ := CheckIp(url, true, nil)
 	fmt.Println("IP: ",r)
-	fmt.Println("NS: ",CheckNs(url))
+	fmt.Println("NS: ",CheckNs(url, nil))
 
 }
 
@@ -70,7 +70,7 @@ func TestCheckBunnyCDN(t *testing.T){
 
 func TestCheckNs(t *testing.T){
 
-	er := CheckNs("181.115.186.67")
+	er := CheckNs("181.115.186.67", nil)
 	t.Log(er)
 }
 

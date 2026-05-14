@@ -6,6 +6,8 @@ import (
 	"gatoscanner/style"
 	"fmt"
 	"os"
+	"runtime"
+	"gatoscanner/config"
 	//
 )
 
@@ -13,7 +15,10 @@ import (
 
 
 func main(){
-	
+	if(runtime.GOOS == "android"){
+		config.Android = true
+	}
+
 	fmt.Println(style.Banner2)
 	
 	SaveinfFile := false

@@ -3,6 +3,7 @@ package menu
 import (
 	"fmt"
 	"gatoscanner/IPs"
+	"gatoscanner/config"
 	"gatoscanner/dnsmikis"
 	"gatoscanner/dnsmikis/cert"
 	"gatoscanner/dnsmikis/hacktarget"
@@ -12,7 +13,6 @@ import (
 	"gatoscanner/funcs"
 	"gatoscanner/style"
 	"net"
-	
 	"sync"
 	"time"
 )
@@ -45,12 +45,12 @@ func CheckCdnOnly(ips *[]IPs.Cdn,ip string){
 
 
 
-
+var Resolver *net.Resolver = config.ConfigResolver() //solo para android
+	
 func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
-
 	
 	
-	if(len(funcs.CheckNs(dominio)) == 0){
+	if(len(funcs.CheckNs(dominio, Resolver)) == 0){
 		fmt.Printf(style.RED + "Domain: %s not found\n"+style.END , dominio  )
 		return
 	}
@@ -141,7 +141,7 @@ func CheckAllSubdomain(cdnList *[]IPs.Cdn , dominio string, savefile bool){
 
 	
 	//Dominio padre
-	dominioPadre := domain.Domain{Name: dominio, Ip: func()[]net.IP{ r, _ := funcs.CheckIp(dominio, true);return r}()}
+	dominioPadre := domain.Domain{Name: dominio, Ip: func()[]net.IP{ r, _ := funcs.CheckIp(dominio, true, Resolver);return r}()}
 	dominioPadre.FindCdn(cdnList)
 
 	subdomains = append(subdomains, dominioPadre)
@@ -196,7 +196,7 @@ func Start(lista []string, cdnlist *[]IPs.Cdn)[]domain.Domain{
 				defer wg.Done()
 				for _, x := range lista{
 					
-					ip, err := funcs.CheckIp(x, true)
+					ip, err := funcs.CheckIp(x, true, Resolver)
 					if(err != nil){
 						fmt.Printf("\r%s", style.RED + err.Error()[:30] + style.END)
 						dmain <- nil
@@ -230,7 +230,7 @@ func Start(lista []string, cdnlist *[]IPs.Cdn)[]domain.Domain{
 	//-----SI SON MENOS DE 100 SUBDOMIIOS SE HACE ESCANEO NORMAL---
 
 	for _, x := range lista{
-		ip, _ := funcs.CheckIp(x, true)
+		ip, _ := funcs.CheckIp(x, true, Resolver)
 		domaiin := domain.Domain{Name: x, Ip: ip }
 		domaiin.FindCdn(cdnlist)
 		subdomains = append(subdomains, domaiin)
